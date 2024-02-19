@@ -1,8 +1,10 @@
+from typing import Union
+
 from pydantic import BaseModel
 
 
 class AuthorQueryParams(BaseModel):
-    fullname: str | None
-    email: str | None
-    age: str | None
-    details: str | None
+    fullname: Union[str, None] = None
+    email: Union[str, None] = None
+    age: Union[int, None] = None
+    details: Union[str, None] = None
