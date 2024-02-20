@@ -1,4 +1,5 @@
 """ This module contains the Book model. """
+from enum import Enum
 from typing import List
 
 from beanie import Document, Link
@@ -6,9 +7,18 @@ from beanie import Document, Link
 from models.author import Author
 
 
+class BookCategory(Enum):
+    Programming = "Programming"
+    Fiction = "Fiction"
+    NonFiction = "Non-Fiction"
+    Science = "Science"
+    History = "History"
+    Mystery = "Mystery"
+
+
 class Book(Document):
     title: str
-    cvategory: str
+    category: BookCategory
     author_ids: List[Link[Author]]
     year: int
     quantity: int
