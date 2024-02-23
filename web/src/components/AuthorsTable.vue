@@ -1,7 +1,6 @@
 <template>
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto overflow-y-auto h-[400px]">
     <table class="table">
-      <!-- head -->
       <thead>
         <tr>
           <th></th>
@@ -11,14 +10,15 @@
           <th>Details</th>
         </tr>
       </thead>
-      <tbody v-for="author in mockAuthors" v-bind:key="author.id">
-        <!-- row 1 -->
+      <tbody v-for="author in authors" v-bind:key="author.id">
         <tr>
           <th>{{ author.id }}</th>
           <td>{{ author.fullname }}</td>
           <td>{{ author.email }}</td>
           <td>{{ author.age }}</td>
-          <td>{{ author.details }}</td>
+          <td>
+            <button class="btn btn-active btn-info btn-sm">View details</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -26,28 +26,19 @@
 </template>
 
 <script setup lang="ts">
-type Author = {
-  id: string
-  fullname: string
-  email: string
-  age: number
-  details: string
+import { onMounted } from "vue";
+import axios from "axios";
+import { ref } from "vue";
+import { AuthorDto } from "@/api/types.d.ts";
+const authors = ref<AuthorDto[]>([]);
+
+async function fetchAuthors() {
+  const response = await axios.get("api/author");
+  const data = await response.data;
+  authors.value = data;
 }
 
-const mockAuthors: Author[] = [
-  {
-    id: '1',
-    fullname: 'Cy Ganderton',
-    email: 'sgardian@example.com',
-    age: 23,
-    details: 'Quality Control Specialist'
-  },
-  {
-    id: '2',
-    fullname: 'Hart Hagerty',
-    email: 'hagerty@example.com',
-    age: 23,
-    details: 'Quality Control Specialist'
-  }
-]
+onMounted(() => {
+  fetchAuthors();
+});
 </script>
