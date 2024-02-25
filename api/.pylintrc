@@ -1,6 +1,7 @@
 [MAIN]
 disable=missing-function-docstring,
-        missing-class-docstring
+        missing-class-docstring,
+        consider-alternative-union-syntax
 
 # Specify a configuration file.
 #rcfile=

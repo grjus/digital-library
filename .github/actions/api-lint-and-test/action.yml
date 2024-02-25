@@ -1,0 +1,22 @@
+name: Lint and test
+
+description: Run lint and test
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install requirements
+      shell: bash
+      working-directory: api
+      run: |
+        pip install --no-cache-dir -r requirements.txt
+
+    - name: Pylint
+      shell: bash
+      working-directory: api
+      run: pylint . --recursive=y

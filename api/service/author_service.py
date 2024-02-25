@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from exceptions import NotFoundException
+from app_exceptions import NotFoundException
 from models.author import Author
 from schemas.author import AuthorDto, AuthorDtoPageable
 

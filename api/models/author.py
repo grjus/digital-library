@@ -4,7 +4,7 @@ from beanie import Document
 from pydantic import EmailStr
 
 
-class Author(Document):
+class Author(Document):  # pylint: disable=too-many-ancestors
     fullname: str
     email: EmailStr
     age: int
