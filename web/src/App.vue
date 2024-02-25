@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <div class="navbar bg-base-100">
+  <div class="navbar bg-base-100 shadow-md">
     <div class="flex-1">
       <a class="btn btn-ghost text-xl">Digital Library</a>
     </div>
@@ -18,7 +18,9 @@ import { RouterLink, RouterView } from "vue-router";
       </ul>
     </div>
   </div>
-  <RouterView />
+  <div class="p-4">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped></style>

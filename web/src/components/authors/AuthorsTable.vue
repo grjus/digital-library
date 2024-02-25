@@ -1,9 +1,10 @@
 <template>
-  <div class="overflow-x-auto overflow-y-auto h-[400px]">
+  <div
+    class="overflow-x-auto overflow-y-auto max-h-[90vh] sm:max-h-[80vh] md:max-h-[70vh] lg:max-h-[60vh] xl:max-h-[50vh]"
+  >
     <table class="table">
       <thead>
         <tr>
-          <th></th>
           <th>Full name</th>
           <th>Email</th>
           <th>Age</th>
@@ -12,7 +13,6 @@
       </thead>
       <tbody v-for="author in authors" v-bind:key="author.id">
         <tr>
-          <th>{{ author.id }}</th>
           <td>{{ author.fullname }}</td>
           <td>{{ author.email }}</td>
           <td>{{ author.age }}</td>
@@ -26,19 +26,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
-import axios from "axios";
-import { ref } from "vue";
-import { AuthorDto } from "@/api/types.d.ts";
-const authors = ref<AuthorDto[]>([]);
+import type { AuthorDto } from "@/api/types";
 
-async function fetchAuthors() {
-  const response = await axios.get("api/author");
-  const data = await response.data;
-  authors.value = data;
-}
-
-onMounted(() => {
-  fetchAuthors();
-});
+defineProps<{
+  authors: AuthorDto[];
+}>();
 </script>

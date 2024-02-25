@@ -1,5 +1,8 @@
 import random
+import re
 
+from beanie import Link
+from bson import DBRef
 from faker import Faker
 
 from models.author import Author
@@ -17,7 +20,7 @@ class MockData:
         return Author(
             fullname=full_name,
             age=self.fake.random_int(min=18, max=100),
-            email=full_name.replace(" ", "").lower() + "@example.com",
+            email=re.sub(r"[-_.\s]", "", full_name).lower() + "@example.com",
             details=self.fake.text(),
         )
 
@@ -29,7 +32,7 @@ class MockData:
 
     def _get_mock_book(self) -> Book:
         return Book(
-            title=self.fake.text(max_nb_chars=20).replace(".", ""),
+            title=self.fake.text(max_nb_chars=20).replace("", ""),
             year=self.fake.year(),
             quantity=self.fake.random_int(min=1, max=10),
             author_ids=[],
@@ -44,14 +47,13 @@ async def populate_mock_data() -> None:
     await Author.delete_all()
     await Book.delete_all()
     mock_data = MockData()
-    authors = mock_data.get_author_list(20)
+    authors = mock_data.get_author_list(200)
     books = mock_data.get_book_list(100)
-    # for book in books:
-    #     book.author_ids.append(authors[0].id)
     await Author.insert_many(authors)
     inserted_authors = await Author.find_all().to_list()
 
     for book in books:
         random_author = random.choice(inserted_authors)
-        book.author_ids.append(random_author)
+        author_id = Link(DBRef("Author", random_author.id), document_class=Author)
+        book.author_ids.append(author_id)
     await Book.insert_many(books)

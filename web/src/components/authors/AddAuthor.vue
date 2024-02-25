@@ -23,8 +23,6 @@
       </div>
       <div class="modal-action">
         <form method="dialog">
-
-          
           <button class="btn">Close</button>
         </form>
       </div>
