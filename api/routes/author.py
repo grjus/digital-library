@@ -1,10 +1,10 @@
-from typing import Optional, Union
+from typing import Union
 
 from fastapi import APIRouter, Depends
 
 from models.author import Author
 from routes.injectables import Injectables
-from schema.author import AuthorQueryParams
+from schemas.author import AuthorDtoPageable
 from service.author_service import AuthorService
 
 router = APIRouter()
@@ -26,15 +26,18 @@ async def get_author(
     return await service.get_author(document_id)
 
 
-@router.get("/", response_description="Get all authors", response_model=list[Author])
+@router.get(
+    "/", response_description="Get all authors", response_model=AuthorDtoPageable
+)
 async def get_authors(
-    fullname: Union[str, None] = None,
-    age: Union[str, None] = None,
-    email: Union[str, None] = None,
+    query="",
+    page_size: int = 5,
+    page_number: int = 0,
     service: AuthorService = Depends(Injectables.get_author_service),
-):
-    query_criteria = AuthorQueryParams(fullname=fullname, age=age, email=email)
-    return await service.get_authors(query_criteria)
+) -> AuthorDtoPageable:
+    return await service.get_pageable_authors_matching_query(
+        page_number=page_number, page_size=page_size, query=query
+    )
 
 
 @router.post(

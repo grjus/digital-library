@@ -17,7 +17,7 @@ class AuthorRepository(Repository):
             if query_criteria
             else {}
         )
-        authors = await self.collection.find(q_filter).to_list(10)
+        authors = await self.collection.find(q_filter).to_list()
         return authors
 
     async def find(self, document_id: str) -> Author:
