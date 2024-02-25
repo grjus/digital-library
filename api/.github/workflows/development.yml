@@ -1,0 +1,18 @@
+name: development
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  lint-and-test-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/web-lint-and-test
+  lint-and-test-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/api-lint-and-test
