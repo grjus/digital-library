@@ -1,5 +1,5 @@
 name: Vue app build
-description: Vue app build
+description: Vue app buildd
 
 runs:
   using: 'composite'
