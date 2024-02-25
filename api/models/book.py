@@ -1,6 +1,5 @@
 """ This module contains the Book model. """
 from enum import Enum
-from typing import List
 
 from beanie import Document, Link
 
@@ -16,10 +15,10 @@ class BookCategory(Enum):
     Mystery = "Mystery"
 
 
-class Book(Document):
+class Book(Document):  # pylint: disable=too-many-ancestors
     title: str
     category: BookCategory
-    author_ids: List[Link[Author]]
+    author_ids: list[Link[Author]]
     year: int
     quantity: int
 
