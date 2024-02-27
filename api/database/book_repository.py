@@ -3,7 +3,7 @@ from typing import List
 
 from beanie import PydanticObjectId
 
-from exceptions import NotFoundException
+from app_exceptions import NotFoundException
 from models.book import Book
 
 book_collcation = Book

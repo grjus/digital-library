@@ -1,8 +1,8 @@
 """This module contains the repository for the author model."""
 from bson import ObjectId
 
+from app_exceptions import NotFoundException
 from database.repository import Repository
-from exceptions import NotFoundException
 from models.author import Author
 from schema.author import AuthorQueryParams
 

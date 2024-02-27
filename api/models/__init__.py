@@ -1,6 +1,6 @@
-from models.author import Author
+from models.author import Author, AuthorDetails
 from models.book import Book
 
 
 class DocumentModels:
-    models = [Author, Book]
+    models = [Author, Book, AuthorDetails]
