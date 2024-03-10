@@ -17,7 +17,11 @@
           <td>{{ author.email }}</td>
           <td>{{ author.age }}</td>
           <td>
-            <button class="btn btn-active btn-info btn-sm">View details</button>
+            <button class="btn btn-active btn-info btn-sm">
+              <router-link :to="'/authors/' + author.id">
+                View details
+              </router-link>
+            </button>
           </td>
         </tr>
       </tbody>

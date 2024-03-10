@@ -1,6 +1,6 @@
-from typing import Union
+from typing import Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 
 
 class AuthorDto(BaseModel):
@@ -8,6 +8,20 @@ class AuthorDto(BaseModel):
     fullname: str
     email: str
     age: int
+
+
+class AuthorDetailsDto(BaseModel):
+    bio: str
+    awards: list[str]
+    photo_url: HttpUrl
+    published_books: list[str]
+    nationality: str
+    website: HttpUrl
+    social_media_links: dict[str, HttpUrl]
+
+
+class AuthorDtoWithDetails(AuthorDto):
+    author_details: Optional[AuthorDetailsDto] = None
 
 
 def to_camel(string: str) -> str:
@@ -24,4 +38,4 @@ class AuthorDtoPageable(BaseModel):
 
     class Config:
         aliias_generator = to_camel
-        allow_population_by_field_name = True
+        populate_by_name = True

@@ -2,7 +2,7 @@ from bson import ObjectId
 
 from app_exceptions import NotFoundException
 from models.author import Author
-from schemas.author import AuthorDto, AuthorDtoPageable
+from schemas.author import AuthorDto, AuthorDtoPageable, AuthorDtoWithDetails
 
 
 class AuthorService:
@@ -27,18 +27,20 @@ class AuthorService:
         )
 
         return AuthorDtoPageable(
-            authors=[AuthorDto(**author.dict()) for author in authors],
+            authors=[AuthorDto(**author.model_dump()) for author in authors],
             total_authors=total_authors,
             page_number=page_number,
             page_size=page_size,
             next_page=total_authors > offset + page_size,
         )
 
-    async def get_author(self, document_id: str) -> Author:
+    async def get_author(self, document_id: str) -> AuthorDtoWithDetails:
         author = await self.collection.find_one({"_id": ObjectId(document_id)})
         if not author:
             raise NotFoundException(f"Author with id: {document_id} not found")
-        return author
+        if author.author_details:
+            await author.fetch_link(Author.author_details)
+        return AuthorDtoWithDetails(**author.model_dump())
 
     async def delete_author(self, document_id: str) -> bool:
         return await self.collection.delete({"_id": ObjectId(document_id)})

@@ -1,10 +1,11 @@
 from typing import Union
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
+from app_exceptions import NotFoundException
 from models.author import Author
 from routes.injectables import Injectables
-from schemas.author import AuthorDtoPageable
+from schemas.author import AuthorDtoPageable, AuthorDtoWithDetails
 from service.author_service import AuthorService
 
 router = APIRouter()
@@ -18,12 +19,17 @@ async def create_author(
 
 
 @router.get(
-    "/{document_id}", response_description="Get an author", response_model=Author
+    "/{document_id}",
+    response_description="Get an author",
+    response_model=AuthorDtoWithDetails,
 )
 async def get_author(
     document_id: str, service: AuthorService = Depends(Injectables.get_author_service)
-):
-    return await service.get_author(document_id)
+) -> AuthorDtoWithDetails:
+    try:
+        return await service.get_author(document_id)
+    except NotFoundException as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
 
 
 @router.get(
