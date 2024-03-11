@@ -5,7 +5,7 @@ from config.config import initiate_database
 from routes.author import router as AuthorRouter
 from routes.book import router as BookRouter
 
-app = FastAPI(docs_url="/", redoc_url=None)
+app = FastAPI(docs_url="/", redoc_url=None, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,5 +25,5 @@ app.include_router(BookRouter, tags=["Books"], prefix="/book")
 app.include_router(
     AuthorRouter,
     tags=["Author"],
-    prefix="/author",
+    prefix="/api/authors",
 )

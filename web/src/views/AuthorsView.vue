@@ -40,7 +40,7 @@ const pageNumber = ref(1);
 const pageSize = ref<string>("5");
 
 async function fetchAuthors() {
-  const response = await axios.get<AuthorDtoPageable>("/api/author/", {
+  const response = await axios.get<AuthorDtoPageable>("/api/authors/", {
     params: {
       query: userQuery.value,
       page_number: pageNumber.value,
@@ -76,7 +76,7 @@ watch(
     pageNumber.value = 1;
     fetchAuthors();
   }, 200),
-  { immediate: false }
+  { immediate: false },
 );
 
 watch(pageSize, () => {

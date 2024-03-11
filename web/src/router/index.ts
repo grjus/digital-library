@@ -18,10 +18,10 @@ const router = createRouter({
       component: () => import("../views/AuthorsView.vue"),
     },
     {
-      path:"/authors/:id",
-      name:"author",
+      path: "/authors/:id",
+      name: "author",
       component: () => import("../views/AuthorView.vue"),
-    }
+    },
   ],
 });
 

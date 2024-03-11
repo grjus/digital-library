@@ -5,6 +5,16 @@ export type AuthorDto = {
   age: string;
 };
 
-export const dummy = () => {
-  console.log("dummy");
+type AuthorDetailsDto = {
+  bio?: string;
+  awards?: string[];
+  photo_url?: string;
+  published_books?: string[];
+  nationality?: string;
+  website?: string;
+  social_media_links?: Record<string, string>;
+};
+
+export type AuthorDtoWithDetails = AuthorDto & {
+  author_details: AuthorDetailsDto | null;
 };

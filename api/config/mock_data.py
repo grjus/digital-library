@@ -1,9 +1,11 @@
 import random
 import re
+import string
 
 from beanie import Link
 from bson import DBRef
 from faker import Faker
+
 
 from models.author import Author, AuthorDetails
 from models.book import Book, BookCategory
@@ -25,6 +27,11 @@ class MockData:
             email=re.sub(r"[-_.\s]", "", full_name).lower() + "@example.com",
             short_bio=self.fake.text(),
         )
+    
+    def _generate_random_string(self,length=15):
+        letters_and_digits = string.ascii_letters + string.digits
+        random_string = ''.join(random.choice(letters_and_digits) for _ in range(length))
+        return random_string
 
     def _get_mocked_author_details(self) -> AuthorDetails:
         fake_data = {
@@ -33,7 +40,7 @@ class MockData:
                 self.fake.sentence(nb_words=4)
                 for _ in range(self.fake.random_int(min=1, max=3))
             ],
-            "photo_url": self.fake.image_url(),
+            "photo_url": f"https://robohash.org/f{self._generate_random_string()}?size=400x400",
             "published_books": [
                 self.fake.sentence(nb_words=5)
                 for _ in range(self.fake.random_int(min=2, max=5))
@@ -81,7 +88,7 @@ async def populate_mock_data() -> None:
     mock_data = MockData()
     authors = mock_data.get_author_list(50)
     author_details = mock_data.get_author_details_list(50)
-    books = mock_data.get_book_list(100)
+    # books = mock_data.get_book_list(100)
     await AuthorDetails.insert_many(author_details)
     # await Author.insert_many(authors)
     # inserted_authors = await Author.find_all().to_list()
